@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import React, { useState } from "react";
 import { styled } from "styled-components";
 
@@ -17,7 +17,24 @@ const Grid = styled.div`
   gap: 10px;
 `;
 
-const Box = styled.div`
+const Modal = styled.div`
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.5);
+`;
+
+const ModalBox = styled(motion.div)`
+  background-color: white;
+  width: 400px;
+  height: 300px;
+  border-radius: 10px;
+`;
+
+const Box = styled(motion.div)`
   width: 400px;
   height: 300px;
   background-color: rgba(255, 255, 255, 0.5);
@@ -26,6 +43,7 @@ const Box = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
 `;
 
 const Circle = styled(motion.div)`
@@ -51,14 +69,26 @@ const Button = styled(motion.button)`
 
 function App() {
   const [firstCircleVisible, setFirstCircleVisible] = useState(true);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [selectedBox, setSelectedBox] = useState("");
   const toggleCircle = () => setFirstCircleVisible((prev) => !prev);
+  const removeModal = () => setModalVisible(false);
+  const onBoxClick = (id: string) => {
+    setModalVisible(true);
+    setSelectedBox(id);
+  };
   return (
     <Wrapper>
+      {modalVisible ? (
+        <Modal onClick={removeModal}>
+          <ModalBox layoutId={selectedBox} />
+        </Modal>
+      ) : null}
       <Grid>
-        <Box />
+        <Box onClick={() => onBoxClick("first")} layoutId="first" />
         <Box>{firstCircleVisible ? <Circle layoutId="circle" /> : null}</Box>
         <Box>{!firstCircleVisible ? <Circle layoutId="circle" /> : null}</Box>
-        <Box />
+        <Box onClick={() => onBoxClick("second")} layoutId="second" />
       </Grid>
       <Button
         onClick={toggleCircle}

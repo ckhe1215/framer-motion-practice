@@ -1,4 +1,5 @@
-import React from "react";
+import { motion } from "framer-motion";
+import React, { useState } from "react";
 import { styled } from "styled-components";
 
 const Wrapper = styled.div`
@@ -27,7 +28,7 @@ const Box = styled.div`
   align-items: center;
 `;
 
-const Circle = styled.div`
+const Circle = styled(motion.div)`
   width: 80px;
   height: 80px;
   border-radius: 100%;
@@ -35,12 +36,13 @@ const Circle = styled.div`
   box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
 `;
 
-const Button = styled.div`
+const Button = styled(motion.button)`
   margin-top: 50px;
   background-color: white;
   font-size: 20px;
   color: blue;
   font-weight: bold;
+  border: none;
   border-radius: 5px;
   padding: 12px;
   box-shadow: 0 7px 14px rgba(0, 0, 0, 0.1), 0 5px 5px rgba(0, 0, 0, 0.1);
@@ -48,19 +50,22 @@ const Button = styled.div`
 `;
 
 function App() {
+  const [firstCircleVisible, setFirstCircleVisible] = useState(true);
+  const toggleCircle = () => setFirstCircleVisible((prev) => !prev);
   return (
     <Wrapper>
       <Grid>
         <Box />
-        <Box>
-          <Circle />
-        </Box>
-        <Box>
-          <Circle />
-        </Box>
+        <Box>{firstCircleVisible ? <Circle layoutId="circle" /> : null}</Box>
+        <Box>{!firstCircleVisible ? <Circle layoutId="circle" /> : null}</Box>
         <Box />
       </Grid>
-      <Button>Switch</Button>
+      <Button
+        onClick={toggleCircle}
+        whileHover={{ scale: 1.1, color: "orange" }}
+      >
+        Switch
+      </Button>
     </Wrapper>
   );
 }

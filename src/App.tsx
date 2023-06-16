@@ -85,10 +85,18 @@ function App() {
         </Modal>
       ) : null}
       <Grid>
-        <Box onClick={() => onBoxClick("first")} layoutId="first" />
+        <Box
+          onClick={() => onBoxClick("first")}
+          layoutId="first"
+          whileHover={{ x: -20, y: -15, scale: 1.1 }}
+        />
         <Box>{firstCircleVisible ? <Circle layoutId="circle" /> : null}</Box>
         <Box>{!firstCircleVisible ? <Circle layoutId="circle" /> : null}</Box>
-        <Box onClick={() => onBoxClick("second")} layoutId="second" />
+        <Box
+          onClick={() => onBoxClick("second")}
+          layoutId="second"
+          whileHover={{ x: 20, y: 15, scale: 1.1 }}
+        />
       </Grid>
       <Button
         onClick={toggleCircle}
